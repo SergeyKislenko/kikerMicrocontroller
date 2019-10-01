@@ -14,8 +14,6 @@ String secondTeamName = "Желтые"; // название второй ком�
 //-------ОБВЕС---------
 
 //-------ПЕРЕМЕННЫЕ---------
-int first_empty_signal, second_empty_signal;   //пустые значение на датчиках
-int f_sens_signal, s_sens_signal;              //значение что считываем в реальном времени
 unsigned long reset_timer;                     // таймеры 
 int firstScore;                                //счет первой команды
 int secondScore;                               //счет второй команды
@@ -58,9 +56,6 @@ void setup() {
   firstScore = 0;
   secondScore = 0;
   delay(1500);
-  //записываем начальные значения с датчиков
-  first_empty_signal = analogRead(fRsens);
-  second_empty_signal = analogRead(sRsens);
 
   // инициализация дисплея
   lcd.init();
@@ -84,9 +79,6 @@ void checkSecond(){
 }
 
 void loop() {
-  f_sens_signal = analogRead(fRsens); 
-  s_sens_signal = analogRead(sRsens);   
-  Serial.print(countPush);Serial.print("---------");Serial.print("");Serial.print("---------");Serial.println();
   lcd_print(firstScore, secondScore);
   //Пишем счет первой команды
   if(isGoalF){  
