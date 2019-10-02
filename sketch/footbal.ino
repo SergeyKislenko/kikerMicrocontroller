@@ -19,6 +19,7 @@ unsigned long reset_timer;                     // таймеры
 int firstScore;                                //счет первой команды
 int secondScore;                               //счет второй команды
 int countPush;
+int counterSongs;
 boolean firstPush = true;
 boolean isCanceled = false;                    // был ли отменен гол
 boolean isGoalF=false;                          // флаг для апаратного прерывания
@@ -29,6 +30,23 @@ String whoLast = "empty";                      // кто отменил посл
 
 //-------ПЕРЕМЕННЫЕ---------
 
+//-------МЕЛОДИИ---------
+//общее количество мелодий
+int countSongs = 2;
+
+//!!!!!!!МАРИО!!!!!!!!
+const byte MARIO_COUNT_NOTES = 17; //Размер массива с песней
+int mario_frequences[MARIO_COUNT_NOTES] = {1046,784,659,880,987,932,880,784,1318,1568,1750,1396,1568,1318,1046,1174,987}; //частоты ноты
+int mario_durations[MARIO_COUNT_NOTES] = {450,150,300,300,150,150,300,210,210,150,300,150,150,300,150,150,450};//длительность нот
+int mario_delTime[MARIO_COUNT_NOTES] = {450,450,450,300,300,150,300,210,210,150,300,150,300,300,150,150,450};//задержка нот
+
+//!!!!!!!Звездные войны!!!!!!!!
+const byte STARS_COUNT_NOTES = 18; //Размер массива с песней
+int stars_frequences[STARS_COUNT_NOTES] = {392, 392, 392, 311, 466, 392, 311, 466, 392, 587, 587, 587, 622, 466, 369, 311, 466, 392}; //частоты ноты
+int stars_durations[STARS_COUNT_NOTES] = {350, 350, 350, 250, 100, 350, 250, 100, 700, 350, 350, 350, 250, 100, 350, 250, 100, 700};//длительность нот
+int stars_delTime[STARS_COUNT_NOTES] = {350, 350, 350, 250, 100, 350, 250, 100, 700, 350, 350, 350, 250, 100, 350, 250, 100, 700};//задержка нот
+
+//-------МЕЛОДИИ---------
 
 //-------БИБЛИОТЕКИ---------
 #include "LCD_1602_RUS.h"
@@ -120,7 +138,7 @@ void loop() {
       //если забили последний гол и он не считовый
       if(firstScore==scoreLimit){
         lcd.setCursor(4, 0); lcd.print(L"ПОБЕДИЛИ");
-        lcd.setCursor(5, 1); lcd.print(firstScore. + "!!!");
+        lcd.setCursor(5, 1); lcd.print(firstScore + "!!!");
       }
       if(secondScore==scoreLimit){
        lcd.setCursor(6, 0); lcd.print(secondScore);
@@ -203,39 +221,27 @@ void prepare_score(String type) {
       }
     }
 }
+
 void win_sound() {
-  tone(piezo,1046,450) ;
-  delay(450);
-  tone(piezo,784,150);
-  delay(450);
-  tone(piezo,659,300);
-  delay(450);
-  tone(piezo,880,300);
-  delay(300);
-  tone(piezo,987,150);
-  delay(300);
-  tone(piezo,932,150);
-  delay(150);
-  tone(piezo,880,300);
-  delay(300);
-  tone(piezo,784,210);
-  delay(210);
-  tone(piezo,1318,210);
-  delay(210);
-  tone(piezo,1568,150);
-  delay(150);
-  tone(piezo,1750,300);
-  delay(300);
-  tone(piezo,1396,150);
-  delay(150);
-  tone(piezo,1568,150);
-  delay(300);
-  tone(piezo,1318,300);
-  delay(300);
-  tone(piezo,1046,150);
-  delay(150);
-  tone(piezo,1174,150);
-  delay(150);
-  tone(piezo,987,450);
-  delay(450);
+  //воспроизводим мелодию
+  switch (counterSongs) {
+    case 0:
+      sing_sound(mario_frequences, mario_durations, mario_delTime, MARIO_COUNT_NOTES);
+      break;
+    case 1:
+      sing_sound(stars_frequences, stars_durations, stars_delTime, STARS_COUNT_NOTES);
+      break;
+  }
+  counterSongs++;
+  if(counterSongs == countSongs){
+    counterSongs==0;
+  }
+}
+
+void sing_sound(int frequences[] ,int durations[] , int delTime[], const byte COUNT_NOTES) {
+    for (int i = 0; i <= COUNT_NOTES; i++  ) {
+        tone(piezo, frequences[i], durations[i]);
+        delay(delTime[i]);
+        noTone(piezo);
+    }
 }
