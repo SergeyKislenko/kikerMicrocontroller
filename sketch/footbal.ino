@@ -19,7 +19,7 @@ unsigned long reset_timer;                     // таймеры
 int firstScore;                                //счет первой команды
 int secondScore;                               //счет второй команды
 int countPush;
-int counterSongs;
+int counterSongs = 0;
 boolean firstPush = true;
 boolean isCanceled = false;                    // был ли отменен гол
 boolean isGoalF=false;                          // флаг для апаратного прерывания
@@ -137,12 +137,12 @@ void loop() {
     while(1){
       //если забили последний гол и он не считовый
       if(firstScore==scoreLimit){
-        lcd.setCursor(4, 0); lcd.print(L"ПОБЕДИЛИ");
+        lcd.setCursor(4, 0); lcd.print("ПОБЕДИЛИ");
         lcd.setCursor(5, 1); lcd.print(firstScore + "!!!");
       }
       if(secondScore==scoreLimit){
        lcd.setCursor(6, 0); lcd.print(secondScore);
-       lcd.setCursor(6, 1); lcd.print(L"ВИН!!!");
+       lcd.setCursor(6, 1); lcd.print("ВИН!!!");
 
       }
 
