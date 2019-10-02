@@ -1,6 +1,7 @@
 //-------НАСТРОЙКИ---------
-String firstTeamName = "Белые"; // название первой команды не больше 7ми букв
+String firstTeamName = "Белые";   // название первой команды не больше 7ми букв
 String secondTeamName = "Желтые"; // название второй команды не больше 7ми букв
+int scoreLimit = 10;              // количество голов для победы
 //-------НАСТРОЙКИ---------
 
 //-------ОБВЕС---------
@@ -112,18 +113,19 @@ void loop() {
   //если нажали кнопку отмены гола
 
   //Если счет достиг 10, обнуляем и начинаем заново
-  if(firstScore==3 || secondScore==3){
+  if(firstScore==scoreLimit || secondScore==scoreLimit){
     reset_timer = millis();
     lcd.clear();
     while(1){
       //если забили последний гол и он не считовый
-      if(firstScore==3){
-        lcd.setCursor(6, 0); lcd.print(firstTeamName);
-        lcd.setCursor(6, 1); lcd.print(L"ВИН!!!");
-      }
-      if(secondScore==3){
+      if(firstScore==scoreLimit){
         lcd.setCursor(4, 0); lcd.print(L"ПОБЕДИЛИ");
-       lcd.setCursor(5, 1); lcd.print(secondTeamName. + "!!!");
+        lcd.setCursor(5, 1); lcd.print(firstScore. + "!!!");
+      }
+      if(secondScore==scoreLimit){
+       lcd.setCursor(6, 0); lcd.print(secondScore);
+       lcd.setCursor(6, 1); lcd.print(L"ВИН!!!");
+
       }
 
      if(!digitalRead(button)){
