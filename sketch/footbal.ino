@@ -98,7 +98,7 @@ void checkSecond(){
 }
 
 void loop() {
-  Serial.print(firstTeamName);Serial.print("-----");Serial.print(firstScore);Serial.print(secondTeamName);Serial.print("-----");Serial.println(secondScore);
+  Serial.print(counterSongs);Serial.print("-----");Serial.print(firstScore);Serial.print(secondTeamName);Serial.print("-----");Serial.println(secondScore);
   lcd_print(firstScore, secondScore);
   //Пишем счет первой команды
   if(isGoalF){
@@ -138,10 +138,10 @@ void loop() {
       //если забили последний гол и он не считовый
       if(firstScore==scoreLimit){
         lcd.setCursor(4, 0); lcd.print("ПОБЕДИЛИ");
-        lcd.setCursor(5, 1); lcd.print(firstScore + "!!!");
+        lcd.setCursor(5, 1); lcd.print(firstTeamName + "!!!");
       }
       if(secondScore==scoreLimit){
-       lcd.setCursor(6, 0); lcd.print(secondScore);
+       lcd.setCursor(6, 0); lcd.print(secondTeamName);
        lcd.setCursor(6, 1); lcd.print("ВИН!!!");
 
       }
@@ -234,7 +234,7 @@ void win_sound() {
   }
   counterSongs++;
   if(counterSongs == countSongs){
-    counterSongs==0;
+    counterSongs = 0;
   }
 }
 
